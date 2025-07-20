@@ -13,6 +13,8 @@ public class Player_Condition
     public bool IsJetpacking { get; set; }
     public bool IsJumping { get; set; }
     public bool IsDashing { get; set; }
+    public bool WallPrevious { get; set; }
+    public bool WallNow { get; set; }
 
     
     public void Reset()

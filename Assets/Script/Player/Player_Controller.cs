@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Player_Controller : MonoBehaviour
 {
@@ -26,6 +27,8 @@ public class Player_Controller : MonoBehaviour
 
     // Return the conditions
     public Player_Condition Conditions => _conditions;
+
+    public Player_Jump JumpSet;
 
     #endregion
 
@@ -90,6 +93,24 @@ public class Player_Controller : MonoBehaviour
         SetRayOrigins();
         CalculateMovement();
 
+        if (Conditions.IsJumping == false)
+        {
+            if (Conditions.IsDashing == true)
+            {
+                float GravityControl = Mathf.Sqrt(0.0001f * 2f * Mathf.Abs(Gravity));
+                SetVerticalForce(GravityControl);
+            }
+        }
+
+        Conditions.WallNow = Conditions.IsWallClinging;
+
+        if (Conditions.WallPrevious == true && Conditions.WallNow == false)
+        {
+            WallClingAdd();
+            Debug.Log("True");
+        }
+
+        Conditions.WallPrevious = Conditions.WallNow;
     }
     
     #region Collision
@@ -271,6 +292,12 @@ public class Player_Controller : MonoBehaviour
         _force.y = yForce;
     }
 
+    public void WallClingAdd()
+    {
+        JumpSet.JumpsLeft += 1;
+        JumpSet.DashLeft += 1;
+    }
+
     // Calculate the gravity to apply
     private void ApplyGravity()
     {
@@ -282,7 +309,7 @@ public class Player_Controller : MonoBehaviour
         }
 
         _force.y += _currentGravity * Time.deltaTime;
-        
+
         if (_wallFallMultiplier != 0)
         {
             _force.y *= _wallFallMultiplier;

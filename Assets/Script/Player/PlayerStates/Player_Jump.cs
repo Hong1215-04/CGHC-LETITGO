@@ -8,19 +8,16 @@ public class Player_Jump : PlayerStates
 {
     [Header("Settings")]
     [SerializeField] private float jumpHeight = 2f;
-    [SerializeField] private int maxJumps = 1;
+    [SerializeField] private int maxJumps = 2;
     [SerializeField] private float DashDistance = 2f;
-    [SerializeField] private int maxDash = 1;
+    [SerializeField] private int maxDash = 2;
     [SerializeField] private float dashingTime = 0.2f;
+    [SerializeField] private int dashingCount = 40;
     [SerializeField] private TrailRenderer tr;
-    [SerializeField] private Rigidbody2D rb;
 
     // Return how many jumps we have left
     public int JumpsLeft { get; set; }
     public int DashLeft { get; set; }
-
-    float zerogravity = 0f;
-    float dashtest = 5;
 
     protected override void InitState()
     {
@@ -36,6 +33,7 @@ public class Player_Jump : PlayerStates
             JumpsLeft = maxJumps;
             DashLeft = maxDash;
             _playerController.Conditions.IsJumping = false;
+            _playerController.SetHorizontalForce(0);
         }
     }
 
@@ -66,6 +64,7 @@ public class Player_Jump : PlayerStates
 
         JumpsLeft -= 1;
 
+        _playerController.Conditions.IsJumping = true;
         float jumpForce = Mathf.Sqrt(jumpHeight * 2f * Mathf.Abs(_playerController.Gravity));
         _playerController.SetVerticalForce(jumpForce);
     }
@@ -99,7 +98,16 @@ public class Player_Jump : PlayerStates
 
         DashLeft -= 1;
 
-        StartCoroutine(Dash());
+        _playerController.Conditions.IsJumping = false;
+
+        if (_playerController.FacingRight == true)
+        {
+            StartCoroutine(DashRight());
+        }
+        else if (_playerController.FacingRight == false)
+        {
+            StartCoroutine(DashLeftSide());
+        }
     }
 
     private bool CanDash()
@@ -132,14 +140,40 @@ public class Player_Jump : PlayerStates
     //     _playerController.SetVerticalForce(normalgravity);
     // }
 
-    private IEnumerator Dash()
+    private IEnumerator DashRight()
     {
-        float originalGravity = rb.gravityScale;
-        rb.gravityScale = 0f;
-        GetComponent<Rigidbody2D>().AddForce(transform.right * DashDistance);
-        yield return new WaitForSeconds(dashingTime);
-        rb.gravityScale = originalGravity;
-        GetComponent<Rigidbody2D>().AddForce(-transform.right * DashDistance);
+        _playerController.Conditions.IsDashing = true;
+        tr.emitting = true;
+        float dashForce = DashDistance * 20f;
+        for (int i = 0; i < dashingCount; i++)
+        {
+            if (_playerController.Conditions.IsJumping == false)
+            {
+                _playerController.SetHorizontalForce(dashForce);
+                yield return new WaitForSeconds(dashingTime);
+            }
+        }
+        _playerController.Conditions.IsDashing = false;
+        _playerController.SetHorizontalForce(0);
+        tr.emitting = false;
+    }
+    
+    private IEnumerator DashLeftSide()
+    {
+        _playerController.Conditions.IsDashing = true;
+        tr.emitting = true;
+        float dashForce = -DashDistance * 20f;
+        for (int i = 0; i < dashingCount; i++)
+        {
+            if (_playerController.Conditions.IsJumping == false)
+            {
+                _playerController.SetHorizontalForce(dashForce);
+                yield return new WaitForSeconds(dashingTime);
+            }
+        }
+        _playerController.Conditions.IsDashing = false;
+        _playerController.SetHorizontalForce(0);
+        tr.emitting = false;
     }
 }
 

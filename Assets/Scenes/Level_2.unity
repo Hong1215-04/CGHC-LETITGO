@@ -208,7 +208,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 58.75, y: 51.11, z: -10}
+  m_LocalPosition: {x: 65.88, y: 50.03, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -344,7 +344,7 @@ Transform:
   m_GameObject: {fileID: 1553934830}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 60.51, y: 53.61, z: 0}
+  m_LocalPosition: {x: 63.5, y: 48.98, z: 0}
   m_LocalScale: {x: 0.58988, y: 0.58988, z: 0.58988}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -369,6 +369,7 @@ MonoBehaviour:
     m_Bits: 64
   verticalRayAmount: 4
   horizontalRayAmount: 4
+  JumpSet: {fileID: 1553934837}
 --- !u!61 &1553934834
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -453,6 +454,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpHeight: 2
   maxJumps: 2
+  DashDistance: 1.8
+  maxDash: 2
+  dashingTime: 0.005
+  dashingCount: 40
+  tr: {fileID: 1553934839}
 --- !u!114 &1553934838
 MonoBehaviour:
   m_ObjectHideFlags: 0
