@@ -5,10 +5,10 @@ using UnityEngine;
 public class Player_Movement : PlayerStates
 {
     [Header("Settings")] 
-[SerializeField] private float speed = 10f;
+    [SerializeField] private float speed = 10f;
 
     private float _horizontalMovement;
-private float _movement;
+    private float _movement;
 
     protected override void InitState()
     {
@@ -34,12 +34,11 @@ private float _movement;
 
         float moveSpeed = _movement * speed;       
         _playerController.SetHorizontalForce(moveSpeed);
-}
+    }
 
     // Initialize our internal movement direction   
     protected override void GetInput()
     {
         _horizontalMovement = _horizontalInput;
     }
-
 }

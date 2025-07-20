@@ -12,6 +12,8 @@ public class Player_Condition
     public bool IsWallClinging { get; set; }
     public bool IsJetpacking { get; set; }
     public bool IsJumping { get; set; }
+    public bool IsDashing { get; set; }
+
     
     public void Reset()
     {
@@ -19,7 +21,7 @@ public class Player_Condition
         IsCollidingLeft = false;
         IsCollidingRight = false;
         IsCollidingAbove = false;
-        
+
         IsFalling = false;
     }
 }

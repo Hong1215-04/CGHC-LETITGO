@@ -266,7 +266,7 @@ public class Player_Controller : MonoBehaviour
         _force.x = xForce;
     }   
 
-        public void SetVerticalForce(float yForce)
+    public void SetVerticalForce(float yForce)
     {
         _force.y = yForce;
     }

@@ -5,8 +5,8 @@ using UnityEngine;
 public class PlayerStates : MonoBehaviour
 {
     protected Player_Controller _playerController;
-protected float _horizontalInput;
-protected float _verticalInput;
+    protected float _horizontalInput;
+    protected float _verticalInput;
 
     protected virtual void Start()
     {
