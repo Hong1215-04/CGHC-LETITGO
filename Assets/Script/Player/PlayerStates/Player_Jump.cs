@@ -33,7 +33,7 @@ public class Player_Jump : PlayerStates
             JumpsLeft = maxJumps;
             DashLeft = maxDash;
             _playerController.Conditions.IsJumping = false;
-            _playerController.SetHorizontalForce(0);
+            //_playerController.SetHorizontalForce(0);
         }
     }
 
