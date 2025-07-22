@@ -19,6 +19,7 @@ public class PlayerHealth : MonoBehaviour
                 gameObject.transform.position = respawn.GetRespawnPosition();
                 ResetHealth();
                 gameObject.SetActive(true);
+                respawn.HandleRespawn();
             });
             gameObject.SetActive(false); // Disable after starting transition
         }
@@ -30,6 +31,7 @@ public class PlayerHealth : MonoBehaviour
                 gameObject.transform.position = respawn.GetRespawnPosition();
                 ResetHealth();
                 gameObject.SetActive(true);
+                respawn.HandleRespawn();
             }
             else
             {
@@ -48,6 +50,7 @@ public class PlayerHealth : MonoBehaviour
         if (respawn != null && RespawnManager.instance != null)
         {
             RespawnManager.instance.RespawnPlayer(gameObject, respawn.GetRespawnPosition(), respawn.delayBeforeRespawn);
+            respawn.HandleRespawn();
         }
     }
 

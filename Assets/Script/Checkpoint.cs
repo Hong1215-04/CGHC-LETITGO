@@ -6,6 +6,7 @@ public class Checkpoint : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            Debug.Log("Player entered checkpoint!");
             PlayerRespawn respawn = collision.GetComponent<PlayerRespawn>();
             if (respawn != null)
             {
