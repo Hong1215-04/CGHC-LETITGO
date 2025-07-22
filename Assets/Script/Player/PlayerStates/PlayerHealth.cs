@@ -9,7 +9,33 @@ public class PlayerHealth : MonoBehaviour
         if (isDead) return;
 
         isDead = true;
-        Die();
+
+        PlayerRespawn respawn = GetComponent<PlayerRespawn>();
+        SceneTransitionController transition = FindObjectOfType<SceneTransitionController>();
+        if (transition != null && respawn != null)
+        {
+            transition.PlayTransition(() =>
+            {
+                gameObject.transform.position = respawn.GetRespawnPosition();
+                ResetHealth();
+                gameObject.SetActive(true);
+            });
+            gameObject.SetActive(false); // Disable after starting transition
+        }
+        else
+        {
+            // fallback: just respawn without transition
+            if (respawn != null)
+            {
+                gameObject.transform.position = respawn.GetRespawnPosition();
+                ResetHealth();
+                gameObject.SetActive(true);
+            }
+            else
+            {
+                gameObject.SetActive(false);
+            }
+        }
     }
 
     private void Die()
@@ -31,11 +57,11 @@ public class PlayerHealth : MonoBehaviour
     }
 
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            Kill();
-        }
-    }
+    // void Update()
+    // {
+    //     if (Input.GetKeyDown(KeyCode.V))
+    //     {
+    //         Kill();
+    //     }
+    // }
 }
