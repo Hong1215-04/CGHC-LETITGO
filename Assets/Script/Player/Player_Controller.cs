@@ -303,7 +303,10 @@ public class Player_Controller : MonoBehaviour
     public void WallClingAdd()
     {
         JumpSet.JumpsLeft += 1;
-        JumpSet.DashLeft += 1;
+        if (JumpSet.DashLeft == 0)
+        {
+            JumpSet.DashLeft += 1;
+        }
     }
 
     // Calculate the gravity to apply
