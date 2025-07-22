@@ -17,6 +17,12 @@ public class PlayerHealth : MonoBehaviour
         Debug.Log("Player Died!");
 
         gameObject.SetActive(false);
+
+        PlayerRespawn respawn = GetComponent<PlayerRespawn>();
+        if (respawn != null && RespawnManager.instance != null)
+        {
+            RespawnManager.instance.RespawnPlayer(gameObject, respawn.GetRespawnPosition(), respawn.delayBeforeRespawn);
+        }
     }
 
     public void ResetHealth()
