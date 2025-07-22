@@ -11,6 +11,7 @@ public class Player_Controller : MonoBehaviour
 
     [Header("Collisions")] 
     [SerializeField] private LayerMask collideWith;
+    [SerializeField] private LayerMask spikeLayer;
     [SerializeField] private int verticalRayAmount = 4;
     [SerializeField] private int horizontalRayAmount = 4;
 
@@ -52,6 +53,8 @@ public class Player_Controller : MonoBehaviour
     private float _faceDirection;
     private float _wallFallMultiplier;
 
+    private PlayerHealth playerHealth; 
+
     #endregion
 
     private void Start()
@@ -60,6 +63,8 @@ public class Player_Controller : MonoBehaviour
 
         _conditions = new Player_Condition();
         _conditions.Reset();
+
+        playerHealth = GetComponent<PlayerHealth>(); 
     }
 
     private void Update()
@@ -111,6 +116,9 @@ public class Player_Controller : MonoBehaviour
         }
 
         Conditions.WallPrevious = Conditions.WallNow;
+
+        CheckSpikeCollision();
+
     }
     
     #region Collision
@@ -364,4 +372,20 @@ public class Player_Controller : MonoBehaviour
 
     #endregion
 
+    private void CheckSpikeCollision()
+    {
+        if (_boxCollider2D == null || playerHealth == null) return;
+
+        Collider2D hit = Physics2D.OverlapBox(
+            _boxCollider2D.bounds.center,
+            _boxCollider2D.bounds.size,
+            0f,
+            spikeLayer
+        );
+
+        if (hit != null)
+        {
+            playerHealth.Kill();
+        }
+    }
 }

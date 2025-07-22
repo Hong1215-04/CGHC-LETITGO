@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Player_Movement : PlayerStates
 {
-    [Header("Settings")] 
+    [Header("Settings")]
     [SerializeField] private float speed = 10f;
 
     private float _horizontalMovement;
@@ -12,7 +12,7 @@ public class Player_Movement : PlayerStates
 
     protected override void InitState()
     {
-        base.InitState();        
+        base.InitState();
     }
 
     public override void ExecuteState()
@@ -32,7 +32,7 @@ public class Player_Movement : PlayerStates
             _movement = 0f;
         }
 
-        float moveSpeed = _movement * speed;       
+        float moveSpeed = _movement * speed;
         _playerController.SetHorizontalForce(moveSpeed);
     }
 
@@ -40,5 +40,14 @@ public class Player_Movement : PlayerStates
     protected override void GetInput()
     {
         _horizontalMovement = _horizontalInput;
+    }
+    
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Spike"))
+        {
+            Debug.Log("Player hit spike!");
+            GetComponent<PlayerHealth>().Kill();
+        }
     }
 }
