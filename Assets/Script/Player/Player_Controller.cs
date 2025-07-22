@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -30,6 +31,7 @@ public class Player_Controller : MonoBehaviour
     public Player_Condition Conditions => _conditions;
 
     public Player_Jump JumpSet;
+    public float Friction { get; set; }
 
     #endregion
 
@@ -102,8 +104,8 @@ public class Player_Controller : MonoBehaviour
         {
             if (Conditions.IsDashing == true)
             {
-                float GravityControl = Mathf.Sqrt(0.0001f * 2f * Mathf.Abs(Gravity));
-                SetVerticalForce(GravityControl);
+                float GravityControl = Mathf.Sqrt(0.04f * 2f * Mathf.Abs(Gravity));
+                SetVerticalForce(-GravityControl);
             }
         }
 
@@ -127,6 +129,8 @@ public class Player_Controller : MonoBehaviour
 
     private void CollisionBelow()
     {
+        Friction = 0f;
+
         if (_movePosition.y < -0.0001f)
         {
             _conditions.IsFalling = true;
@@ -165,6 +169,8 @@ public class Player_Controller : MonoBehaviour
 
             if (hit)
             {
+                GameObject hitObject = hit.collider.gameObject;
+
                 if (_force.y > 0)
                 {
                     _movePosition.y = _force.y * Time.deltaTime;
@@ -181,6 +187,27 @@ public class Player_Controller : MonoBehaviour
                 if (Mathf.Abs(_movePosition.y) < 0.0001f)
                 {
                     _movePosition.y = 0f;
+                }
+
+                if (hitObject.GetComponent<SpecialSurface>() != null)
+                {
+                    Conditions.IsJumping = true;
+                    Friction = hitObject.GetComponent<SpecialSurface>().Friction;
+                    if (FacingRight)
+                    {
+                        Conditions.IceRight = true;
+                        Conditions.IceLeft = false;
+                    }
+                    else if (!FacingRight)
+                    {
+                        Conditions.IceLeft = true;
+                        Conditions.IceRight = false;
+                    }
+                }
+                else
+                {
+                    Conditions.IceRight = false;
+                    Conditions.IceLeft = false;
                 }
             }
             // else

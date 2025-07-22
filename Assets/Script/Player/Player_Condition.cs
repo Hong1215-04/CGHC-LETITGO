@@ -15,6 +15,8 @@ public class Player_Condition
     public bool IsDashing { get; set; }
     public bool WallPrevious { get; set; }
     public bool WallNow { get; set; }
+    public bool IceLeft { get; set; }
+    public bool IceRight { get; set; }
 
     
     public void Reset()
