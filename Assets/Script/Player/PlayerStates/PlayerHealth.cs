@@ -33,12 +33,12 @@ public class PlayerHealth : MonoBehaviour
             }
 
             ResetHealth();
-            gameObject.SetActive(true);
+            SetAlpha(1);
         }
 
         if (transition != null)
         {
-            gameObject.SetActive(false);
+            SetAlpha(0);
             transition.PlayTransition(DoRespawn);
         }
         else
@@ -50,5 +50,15 @@ public class PlayerHealth : MonoBehaviour
     public void ResetHealth()
     {
         isDead = false;
+    }
+    void SetAlpha(float alpha)
+    {
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        if (sr != null)
+        {
+            Color color = sr.color;
+            color.a = Mathf.Clamp01(alpha); // Ensure alpha stays between 0 and 1
+            sr.color = color;
+        }
     }
 }

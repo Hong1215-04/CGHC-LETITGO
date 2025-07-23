@@ -78,6 +78,7 @@ public class Player_Controller : Singleton<Player_Controller>
 
     private void Update()
     {
+
         // Debug.DrawRay(_boundsBottomLeft, Vector2.left, Color.green);
         // Debug.DrawRay(_boundsBottomRight, Vector2.right, Color.green);
         // Debug.DrawRay(_boundsTopLeft, Vector2.left, Color.green);
@@ -261,7 +262,8 @@ public class Player_Controller : Singleton<Player_Controller>
                 if (direction >= 0)
                 {
                     _movePosition.x = hit.distance - _boundsWidth / 2f - _skin * 2f;
-                    _conditions.IsCollidingRight = true;
+                    _conditions.IsColRight = true;
+                    Debug.Log("CollRight");
                 }
                 else
                 {
