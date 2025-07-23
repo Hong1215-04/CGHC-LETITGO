@@ -107,7 +107,10 @@ public class Player_Movement : PlayerStates
         if (collision.gameObject.layer == LayerMask.NameToLayer("Spike"))
         {
             Debug.Log("Player hit spike!");
+            _playerController.Conditions.die = true;
+            _playerController.Conditions.IsWallClinging = false;
             GetComponent<PlayerHealth>().Kill();
+            _playerController.Conditions.die = false;
         }
         // else if (collision.gameObject.layer == LayerMask.NameToLayer("Fire"))
         // {

@@ -1594,7 +1594,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b72fa8ed3ac654940840871e1ee02615, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delayBeforeRespawn: 1.5
+  delayBeforeRespawn: 1
   avalanche: {fileID: 0}
   avalancheOffsetX: -5
 --- !u!50 &1553934842
