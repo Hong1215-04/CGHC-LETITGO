@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -30,6 +31,7 @@ public class Player_Controller : MonoBehaviour
     public Player_Condition Conditions => _conditions;
 
     public Player_Jump JumpSet;
+    public float Friction { get; set; }
 
     #endregion
 
@@ -98,12 +100,21 @@ public class Player_Controller : MonoBehaviour
         SetRayOrigins();
         CalculateMovement();
 
+        if (_force.x < 1f && _force.x > -1f)
+        {
+            Conditions.StopIce = true;
+        }
+        else
+        {
+            Conditions.StopIce = false;
+        }
+
         if (Conditions.IsJumping == false)
         {
             if (Conditions.IsDashing == true)
             {
-                float GravityControl = Mathf.Sqrt(0.0001f * 2f * Mathf.Abs(Gravity));
-                SetVerticalForce(GravityControl);
+                float GravityControl = Mathf.Sqrt(0.04f * 2f * Mathf.Abs(Gravity));
+                SetVerticalForce(-GravityControl);
             }
         }
 
@@ -117,7 +128,7 @@ public class Player_Controller : MonoBehaviour
 
         Conditions.WallPrevious = Conditions.WallNow;
 
-        CheckSpikeCollision();
+        //CheckSpikeCollision();
 
     }
     
@@ -127,6 +138,8 @@ public class Player_Controller : MonoBehaviour
 
     private void CollisionBelow()
     {
+        Friction = 0f;
+
         if (_movePosition.y < -0.0001f)
         {
             _conditions.IsFalling = true;
@@ -165,6 +178,8 @@ public class Player_Controller : MonoBehaviour
 
             if (hit)
             {
+                GameObject hitObject = hit.collider.gameObject;
+
                 if (_force.y > 0)
                 {
                     _movePosition.y = _force.y * Time.deltaTime;
@@ -181,6 +196,27 @@ public class Player_Controller : MonoBehaviour
                 if (Mathf.Abs(_movePosition.y) < 0.0001f)
                 {
                     _movePosition.y = 0f;
+                }
+
+                if (hitObject.GetComponent<SpecialSurface>() != null)
+                {
+                    //Conditions.IsJumping = true;
+                    Friction = hitObject.GetComponent<SpecialSurface>().Friction;
+                    if (FacingRight)
+                    {
+                        Conditions.IceRight = true;
+                        Conditions.IceLeft = false;
+                    }
+                    else if (!FacingRight)
+                    {
+                        Conditions.IceLeft = true;
+                        Conditions.IceRight = false;
+                    }
+                }
+                else
+                {
+                    Conditions.IceRight = false;
+                    Conditions.IceLeft = false;
                 }
             }
             // else
@@ -303,7 +339,10 @@ public class Player_Controller : MonoBehaviour
     public void WallClingAdd()
     {
         JumpSet.JumpsLeft += 1;
-        JumpSet.DashLeft += 1;
+        if (JumpSet.DashLeft == 0)
+        {
+            JumpSet.DashLeft += 1;
+        }
     }
 
     // Calculate the gravity to apply
@@ -372,20 +411,20 @@ public class Player_Controller : MonoBehaviour
 
     #endregion
 
-    private void CheckSpikeCollision()
-    {
-        if (_boxCollider2D == null || playerHealth == null) return;
+    // private void CheckSpikeCollision()
+    // {
+    //     if (_boxCollider2D == null || playerHealth == null) return;
 
-        Collider2D hit = Physics2D.OverlapBox(
-            _boxCollider2D.bounds.center,
-            _boxCollider2D.bounds.size,
-            0f,
-            spikeLayer
-        );
+    //     Collider2D hit = Physics2D.OverlapBox(
+    //         _boxCollider2D.bounds.center,
+    //         _boxCollider2D.bounds.size,
+    //         0f,
+    //         spikeLayer
+    //     );
 
-        if (hit != null)
-        {
-            playerHealth.Kill();
-        }
-    }
+    //     if (hit != null)
+    //     {
+    //         playerHealth.Kill();
+    //     }
+    // }
 }
