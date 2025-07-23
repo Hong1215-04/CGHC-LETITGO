@@ -113,7 +113,7 @@ public class Player_Controller : MonoBehaviour
         {
             if (Conditions.IsDashing == true)
             {
-                float GravityControl = Mathf.Sqrt(0.04f * 2f * Mathf.Abs(Gravity));
+                float GravityControl = Mathf.Sqrt(0.01f * 2f * Mathf.Abs(Gravity));
                 SetVerticalForce(-GravityControl);
             }
         }
