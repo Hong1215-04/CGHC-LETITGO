@@ -18,7 +18,7 @@ public class CoolCountDown : MonoBehaviour
         if (CountingDownOrNot == true)
         {
             LifeTimeInIce += Time.deltaTime;
-            Debug.Log(LifeTimeInIce);
+            //Debug.Log(LifeTimeInIce);
         }
         if (LifeTimeInIce >= 7)
         {
@@ -44,7 +44,7 @@ public class CoolCountDown : MonoBehaviour
             {
                 LifeTimeInIce -= 0.1f;
             }
-            Debug.Log(LifeTimeInIce);
+            //Debug.Log(LifeTimeInIce);
         }
     }
     
