@@ -44,4 +44,10 @@ public class AvalancheController : MonoBehaviour
                 health.Kill();
         }
     }
+
+    public void StopAvalanche()
+    {
+        isActive = false;
+        avalancheParticles.Stop();
+    }
 }
