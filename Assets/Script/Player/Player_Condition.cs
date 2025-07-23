@@ -17,6 +17,8 @@ public class Player_Condition
     public bool WallNow { get; set; }
     public bool IceLeft { get; set; }
     public bool IceRight { get; set; }
+    public bool StopIce { get; set; }
+    public bool TimeStop { get; set; }
 
     
     public void Reset()
@@ -25,6 +27,7 @@ public class Player_Condition
         IsCollidingLeft = false;
         IsCollidingRight = false;
         IsCollidingAbove = false;
+        TimeStop = false;
 
         IsFalling = false;
     }

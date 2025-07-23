@@ -100,6 +100,15 @@ public class Player_Controller : MonoBehaviour
         SetRayOrigins();
         CalculateMovement();
 
+        if (_force.x < 1f && _force.x > -1f)
+        {
+            Conditions.StopIce = true;
+        }
+        else
+        {
+            Conditions.StopIce = false;
+        }
+
         if (Conditions.IsJumping == false)
         {
             if (Conditions.IsDashing == true)
@@ -119,7 +128,7 @@ public class Player_Controller : MonoBehaviour
 
         Conditions.WallPrevious = Conditions.WallNow;
 
-        CheckSpikeCollision();
+        //CheckSpikeCollision();
 
     }
     
@@ -191,7 +200,7 @@ public class Player_Controller : MonoBehaviour
 
                 if (hitObject.GetComponent<SpecialSurface>() != null)
                 {
-                    Conditions.IsJumping = true;
+                    //Conditions.IsJumping = true;
                     Friction = hitObject.GetComponent<SpecialSurface>().Friction;
                     if (FacingRight)
                     {
@@ -402,20 +411,20 @@ public class Player_Controller : MonoBehaviour
 
     #endregion
 
-    private void CheckSpikeCollision()
-    {
-        if (_boxCollider2D == null || playerHealth == null) return;
+    // private void CheckSpikeCollision()
+    // {
+    //     if (_boxCollider2D == null || playerHealth == null) return;
 
-        Collider2D hit = Physics2D.OverlapBox(
-            _boxCollider2D.bounds.center,
-            _boxCollider2D.bounds.size,
-            0f,
-            spikeLayer
-        );
+    //     Collider2D hit = Physics2D.OverlapBox(
+    //         _boxCollider2D.bounds.center,
+    //         _boxCollider2D.bounds.size,
+    //         0f,
+    //         spikeLayer
+    //     );
 
-        if (hit != null)
-        {
-            playerHealth.Kill();
-        }
-    }
+    //     if (hit != null)
+    //     {
+    //         playerHealth.Kill();
+    //     }
+    // }
 }

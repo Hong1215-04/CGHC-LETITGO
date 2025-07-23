@@ -23,20 +23,20 @@ public class Player_Movement : PlayerStates
 
     private void IceMoveAdd()
     {
-        if (_movement == 0f)
+        if (_movement == 0f && _playerController.Conditions.StopIce == true)
         {
             if (_playerController.Conditions.IceRight == true)
             {
-                float IceStay = 0.1f * 20f;
+                float IceStay = 1f;
                 _playerController.SetHorizontalForce(IceStay);
                 _playerController.Conditions.IceRight = false;
             }
             else if (_playerController.Conditions.IceLeft == true)
             {
-                float IceStay = 0.1f * 20f;
+                float IceStay = 1f;
                 _playerController.SetHorizontalForce(-IceStay);
                 _playerController.Conditions.IceLeft = false;
-            }  
+            }
         }
     }
 
@@ -81,5 +81,19 @@ public class Player_Movement : PlayerStates
             Debug.Log("Player hit spike!");
             GetComponent<PlayerHealth>().Kill();
         }
+        // else if (collision.gameObject.layer == LayerMask.NameToLayer("Fire"))
+        // {
+        //     _playerController.Conditions.TimeStop = true;
+        // }
     }
+
+    // private void OnCollisionExit2D(Collision2D collision)
+    // {
+    //     if (collision.gameObject.layer == LayerMask.NameToLayer("Fire"))
+    //     {
+    //         _playerController.Conditions.TimeStop = false;
+    //     }
+    // }
+
+
 }
