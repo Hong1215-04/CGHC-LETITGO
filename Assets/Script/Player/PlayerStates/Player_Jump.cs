@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using TMPro;
 using UnityEditor;
 using UnityEditor.Callbacks;
@@ -45,7 +46,7 @@ public class Player_Jump : PlayerStates
         {
             Jump();
         }
-        else if (Input.GetKeyDown(KeyCode.F))
+        else if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             DashCon();
         }
@@ -143,6 +144,7 @@ public class Player_Jump : PlayerStates
 
     private IEnumerator DashRight()
     {
+        //_playerController.Conditions.die = false;
         _playerController.Conditions.IsDashing = true;
         tr.emitting = true;
         float dashForce = DashDistance * 20f;
@@ -157,24 +159,32 @@ public class Player_Jump : PlayerStates
         _playerController.Conditions.IsDashing = false;
         _playerController.SetHorizontalForce(0);
         tr.emitting = false;
+        //_playerController.Conditions.die = true;
     }
-    
+
     private IEnumerator DashLeftSide()
     {
+        if (_playerController.Conditions.die) yield break;
+
         _playerController.Conditions.IsDashing = true;
         tr.emitting = true;
         float dashForce = -DashDistance * 20f;
         for (int i = 0; i < dashingCount; i++)
         {
+            if (_playerController.Conditions.die) break;
+
             if (_playerController.Conditions.IsJumping == false)
             {
                 _playerController.SetHorizontalForce(dashForce);
                 yield return new WaitForSeconds(dashingTime);
             }
         }
-        _playerController.Conditions.IsDashing = false;
-        _playerController.SetHorizontalForce(0);
-        tr.emitting = false;
+        if (!_playerController.Conditions.die)
+        {
+            _playerController.Conditions.IsDashing = false;
+            _playerController.SetHorizontalForce(0);
+            tr.emitting = false;  
+        }
     }
 }
 
