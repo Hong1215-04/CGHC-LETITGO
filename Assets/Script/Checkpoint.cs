@@ -2,16 +2,20 @@ using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
 {
-    private void OnTriggerEnter2D(Collider2D collision)
+    private bool activated = false;
+
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (collision.CompareTag("Player"))
+        if (!activated && other.CompareTag("Player"))
         {
-            Debug.Log("Player entered checkpoint!");
-            PlayerRespawn respawn = collision.GetComponent<PlayerRespawn>();
+            var respawn = other.GetComponent<PlayerRespawn>();
             if (respawn != null)
             {
-                respawn.UpdateCheckpoint(transform.position);
-                Debug.Log("Checkpoint activated at " + transform.position);
+                Vector2 checkpointPos = transform.position;
+                Vector2 avalanchePos = checkpointPos + new Vector2(respawn.avalancheOffsetX, 0f);
+
+                respawn.UpdateCheckpoint(checkpointPos, avalanchePos);
+                activated = true;
             }
         }
     }

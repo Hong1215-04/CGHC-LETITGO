@@ -3,54 +3,47 @@ using UnityEngine;
 public class PlayerHealth : MonoBehaviour
 {
     private bool isDead = false;
+    public AvalancheController avalanche;
 
     public void Kill()
     {
         if (isDead) return;
-
         isDead = true;
 
         PlayerRespawn respawn = GetComponent<PlayerRespawn>();
-        SceneTransitionController transition = FindObjectOfType<SceneTransitionController>();
-        if (transition != null && respawn != null)
+        var transition = FindObjectOfType<SceneTransitionController>();
+        var triggers = FindObjectsOfType<AvalancheTrigger>(); // ✅ 支持多个触发器
+
+        void DoRespawn()
         {
-            transition.PlayTransition(() =>
+            if (respawn != null)
             {
-                gameObject.transform.position = respawn.GetRespawnPosition();
-                ResetHealth();
-                gameObject.SetActive(true);
+                if (avalanche != null)
+                    avalanche.ResetToPosition(respawn.GetAvalancheSpawnPos());
+
+                // ✅ 重置所有 AvalancheTrigger
+                foreach (var trigger in triggers)
+                {
+                    if (trigger != null)
+                        trigger.ResetTrigger();
+                }
+
+                transform.position = respawn.GetRespawnPosition();
                 respawn.HandleRespawn();
-            });
-            gameObject.SetActive(false); // Disable after starting transition
+            }
+
+            ResetHealth();
+            gameObject.SetActive(true);
+        }
+
+        if (transition != null)
+        {
+            gameObject.SetActive(false);
+            transition.PlayTransition(DoRespawn);
         }
         else
         {
-            // fallback: just respawn without transition
-            if (respawn != null)
-            {
-                gameObject.transform.position = respawn.GetRespawnPosition();
-                ResetHealth();
-                gameObject.SetActive(true);
-                respawn.HandleRespawn();
-            }
-            else
-            {
-                gameObject.SetActive(false);
-            }
-        }
-    }
-
-    private void Die()
-    {
-        Debug.Log("Player Died!");
-
-        gameObject.SetActive(false);
-
-        PlayerRespawn respawn = GetComponent<PlayerRespawn>();
-        if (respawn != null && RespawnManager.instance != null)
-        {
-            RespawnManager.instance.RespawnPlayer(gameObject, respawn.GetRespawnPosition(), respawn.delayBeforeRespawn);
-            respawn.HandleRespawn();
+            DoRespawn();
         }
     }
 
@@ -58,13 +51,4 @@ public class PlayerHealth : MonoBehaviour
     {
         isDead = false;
     }
-
-
-    // void Update()
-    // {
-    //     if (Input.GetKeyDown(KeyCode.V))
-    //     {
-    //         Kill();
-    //     }
-    // }
 }

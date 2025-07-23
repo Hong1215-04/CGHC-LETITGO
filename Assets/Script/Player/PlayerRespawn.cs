@@ -1,13 +1,15 @@
 using UnityEngine;
-using System.Collections;
 
 public class PlayerRespawn : MonoBehaviour
 {
     private Vector2 respawnPosition;
+    private Vector2 avalancheSpawnPos;
     private PlayerHealth health;
 
-    [Header("Respawn Delay")]
+    [Header("Respawn Settings")]
     public float delayBeforeRespawn = 1.5f;
+    public AvalancheController avalanche;
+    public float avalancheOffsetX = -5f;
 
     private void Start()
     {
@@ -15,19 +17,22 @@ public class PlayerRespawn : MonoBehaviour
         respawnPosition = transform.position;
     }
 
-    public void UpdateCheckpoint(Vector2 newPos)
+    public void UpdateCheckpoint(Vector2 newPos, Vector2 avalanchePos)
     {
         respawnPosition = newPos;
-        Debug.Log("Checkpoint saved at: " + respawnPosition);
+        avalancheSpawnPos = avalanchePos;
+        Debug.Log($"Checkpoint updated: Player @ {respawnPosition}, Avalanche @ {avalancheSpawnPos}");
     }
+
+    public Vector2 GetRespawnPosition() => respawnPosition;
+    public Vector2 GetAvalancheSpawnPos() => avalancheSpawnPos;
 
     public void HandleRespawn()
     {
-        health.ResetHealth(); // Keep this
-    }
+        health.ResetHealth();
+        transform.position = respawnPosition;
 
-    public Vector2 GetRespawnPosition()
-    {
-        return respawnPosition;
+        if (avalanche != null)
+            avalanche.ResetToPosition(avalancheSpawnPos);
     }
 }
