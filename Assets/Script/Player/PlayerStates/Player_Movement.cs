@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player_Movement : PlayerStates
@@ -19,6 +20,7 @@ public class Player_Movement : PlayerStates
     {
         MovePlayer();
         IceMoveAdd();
+        CheckStand();
     }
 
     private void IceMoveAdd()
@@ -95,5 +97,15 @@ public class Player_Movement : PlayerStates
     //     }
     // }
 
-
+    private void CheckStand()
+    {
+        if (_movement == 0)
+        {
+            _playerController.Conditions.Stand = true;
+        }
+        else
+        {
+            _playerController.Conditions.Stand = false;
+        }
+    }
 }
