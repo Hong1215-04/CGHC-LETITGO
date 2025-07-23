@@ -19,6 +19,7 @@ public class Player_Condition
     public bool IceRight { get; set; }
     public bool StopIce { get; set; }
     public bool TimeStop { get; set; }
+    public bool Stand { get; set; }
 
     
     public void Reset()
