@@ -101,6 +101,7 @@ public class Player_Controller : MonoBehaviour
         SetRayOrigins();
         CalculateMovement();
 
+
         if (_force.x < 1f && _force.x > -1f)
         {
             Conditions.StopIce = true;
@@ -114,7 +115,7 @@ public class Player_Controller : MonoBehaviour
         {
             if (Conditions.IsDashing == true)
             {
-                float GravityControl = Mathf.Sqrt(0.01f * 2f * Mathf.Abs(Gravity));
+                float GravityControl = Mathf.Sqrt(0.0001f * 2f * Mathf.Abs(Gravity));
                 SetVerticalForce(-GravityControl);
             }
         }
@@ -204,6 +205,7 @@ public class Player_Controller : MonoBehaviour
                 {
                     //Conditions.IsJumping = true;
                     Friction = hitObject.GetComponent<SpecialSurface>().Friction;
+                    Conditions.isWater = false;
                     if (FacingRight)
                     {
                         Conditions.IceRight = true;
@@ -214,13 +216,14 @@ public class Player_Controller : MonoBehaviour
                         Conditions.IceLeft = true;
                         Conditions.IceRight = false;
                     }
-                }
-                else
-                {
-                    Conditions.IceRight = false;
-                    Conditions.IceLeft = false;
+                    else
+                    {
+                        Conditions.IceRight = false;
+                        Conditions.IceLeft = false;
+                    }
                 }
             }
+
             // else
             // {
             //     _conditions.IsCollidingBelow = false;
@@ -324,7 +327,7 @@ public class Player_Controller : MonoBehaviour
     {
         _movePosition = _force * Time.deltaTime;
 
-        _conditions.Reset();
+        //_conditions.Reset();
     }
 
     // Sets our new x movement
