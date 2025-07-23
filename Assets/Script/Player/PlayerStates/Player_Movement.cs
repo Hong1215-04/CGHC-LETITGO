@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player_Movement : PlayerStates
@@ -9,6 +10,7 @@ public class Player_Movement : PlayerStates
 
     private float _horizontalMovement;
     private float _movement;
+    [SerializeField] private float slow = 0.5f;
 
     protected override void InitState()
     {
@@ -19,6 +21,7 @@ public class Player_Movement : PlayerStates
     {
         MovePlayer();
         IceMoveAdd();
+        CheckStand();
     }
 
     private void IceMoveAdd()
@@ -40,6 +43,26 @@ public class Player_Movement : PlayerStates
         }
     }
 
+    // private void WaterMoveAdd()
+    // {
+    //     if (_playerController.Conditions.isWater == true)
+    //     {
+    //         if (_playerController.Conditions.waterright == true)
+    //         {
+    //              -= 20f;
+    //             _playerController.Conditions.waterright = false;
+    //             _playerController.Conditions.isWater = false;  
+    //         }
+
+    //         if (_playerController.Conditions.waterleft == true)
+    //         {
+    //             _movement += 20f;
+    //             _playerController.Conditions.waterleft = false;
+    //             _playerController.Conditions.isWater = false;
+    //         }
+    //     }
+    // }
+
     // Moves our Player    
     private void MovePlayer()
     {
@@ -50,6 +73,11 @@ public class Player_Movement : PlayerStates
         else
         {
             _movement = 0f;
+        }
+
+        if (_playerController.Conditions.isWater == true)
+        {
+            _movement = slow * _horizontalMovement;
         }
 
         float moveSpeed = _movement * speed;
@@ -95,5 +123,33 @@ public class Player_Movement : PlayerStates
     //     }
     // }
 
+    private void OnTriggerStay2D(Collider2D waterIn)
+    {
+        if (waterIn.gameObject.layer == LayerMask.NameToLayer("Slow"))
+        {
+            Debug.Log("Nice");
+            _playerController.Conditions.isWater = true;
+        }
+    }
 
+    private void OnTriggerExit2D(Collider2D waterIn)
+    {
+        if (waterIn.gameObject.layer == LayerMask.NameToLayer("Slow"))
+        {
+            Debug.Log("End");
+            _playerController.Conditions.isWater = false;
+        }
+    }
+
+    private void CheckStand()
+    {
+        if (_movement == 0)
+        {
+            _playerController.Conditions.Stand = true;
+        }
+        else
+        {
+            _playerController.Conditions.Stand = false;
+        }
+    }
 }

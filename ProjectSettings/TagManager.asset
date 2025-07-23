@@ -17,7 +17,7 @@ TagManager:
   - Player
   - DarkIn
   - DarkOut
-  - 
+  - Slow
   - 
   - 
   - 
@@ -43,4 +43,7 @@ TagManager:
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: LevelComponent
+    uniqueID: 341295031
     locked: 0
