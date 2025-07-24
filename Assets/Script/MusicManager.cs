@@ -69,5 +69,14 @@ public class MusicManager : MonoBehaviour
     {
         audioSource.Pause();
     }
+
+    public void SwitchMusic(AudioClip newClip, bool reset = true)
+    {
+        if (audioSource.clip == newClip && audioSource.isPlaying) return;
+
+        audioSource.clip = newClip;
+        if (reset) audioSource.Stop();
+        audioSource.Play();
+    }
+
 }
-    
