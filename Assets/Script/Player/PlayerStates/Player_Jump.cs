@@ -46,7 +46,7 @@ public class Player_Jump : PlayerStates
         {
             Jump();
         }
-        else if (Input.GetKeyDown(KeyCode.LeftShift))
+        else if (Input.GetKeyDown(KeyCode.F))
         {
             DashCon();
         }
@@ -147,14 +147,29 @@ public class Player_Jump : PlayerStates
         //_playerController.Conditions.die = false;
         _playerController.Conditions.IsDashing = true;
         tr.emitting = true;
-        float dashForce = DashDistance * 20f;
-        for (int i = 0; i < dashingCount; i++)
+        if (_playerController.Conditions.isWater == true)
         {
-            if (_playerController.Conditions.IsJumping == false)
+            float dashForceslow = DashDistance * 10f;
+            for (int i = 0; i < dashingCount; i++)
             {
-                _playerController.SetHorizontalForce(dashForce);
-                yield return new WaitForSeconds(dashingTime);
+                if (_playerController.Conditions.IsJumping == false)
+                {
+                    _playerController.SetHorizontalForce(dashForceslow);
+                    yield return new WaitForSeconds(dashingTime);
+                }
             }
+        }
+        else
+        {
+            float dashForce = DashDistance * 20f;
+            for (int i = 0; i < dashingCount; i++)
+            {
+                if (_playerController.Conditions.IsJumping == false)
+                {
+                    _playerController.SetHorizontalForce(dashForce);
+                    yield return new WaitForSeconds(dashingTime);
+                }
+            }   
         }
         _playerController.Conditions.IsDashing = false;
         _playerController.SetHorizontalForce(0);
@@ -164,27 +179,36 @@ public class Player_Jump : PlayerStates
 
     private IEnumerator DashLeftSide()
     {
-        if (_playerController.Conditions.die) yield break;
-
+        //if (_playerController.Conditions.die) yield break;
         _playerController.Conditions.IsDashing = true;
         tr.emitting = true;
-        float dashForce = -DashDistance * 20f;
-        for (int i = 0; i < dashingCount; i++)
+        if (_playerController.Conditions.isWater == true)
         {
-            if (_playerController.Conditions.die) break;
-
-            if (_playerController.Conditions.IsJumping == false)
+            float dashForceslow = DashDistance * 10f;
+            for (int i = 0; i < dashingCount; i++)
             {
-                _playerController.SetHorizontalForce(dashForce);
-                yield return new WaitForSeconds(dashingTime);
+                if (_playerController.Conditions.IsJumping == false)
+                {
+                    _playerController.SetHorizontalForce(-dashForceslow);
+                    yield return new WaitForSeconds(dashingTime);
+                }
             }
         }
-        if (!_playerController.Conditions.die)
+        else
         {
-            _playerController.Conditions.IsDashing = false;
-            _playerController.SetHorizontalForce(0);
-            tr.emitting = false;  
+            float dashForce = DashDistance * 20f;
+            for (int i = 0; i < dashingCount; i++)
+            {
+                if (_playerController.Conditions.IsJumping == false)
+                {
+                    _playerController.SetHorizontalForce(-dashForce);
+                    yield return new WaitForSeconds(dashingTime);
+                }
+            }   
         }
+        _playerController.Conditions.IsDashing = false;
+        _playerController.SetHorizontalForce(0);
+        tr.emitting = false;  
     }
 }
 

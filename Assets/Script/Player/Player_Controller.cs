@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class Player_Controller : MonoBehaviour
+public class Player_Controller : Singleton<Player_Controller>
 {
     [Header("Settings")]
     [SerializeField] private float gravity = -20f;
@@ -16,6 +16,11 @@ public class Player_Controller : MonoBehaviour
     [SerializeField] private int verticalRayAmount = 4;
     [SerializeField] private int horizontalRayAmount = 4;
     [SerializeField] private Animator PlayerMove;
+
+    // protected override void Awake()
+    // {
+    //     base.Awake();
+    // }
 
     #region Properties
 
@@ -277,13 +282,13 @@ public class Player_Controller : MonoBehaviour
     private void CollisionAbove()
     {
         //fixing bug wallcling
-        if (!Conditions.IsWallClinging)
-        {
-            if (_movePosition.y < 0)
-            {
-                return;
-            }
-        }
+        // if (!Conditions.IsWallClinging)
+        // {
+        //     if (_movePosition.y < 0)
+        //     {
+        //         return;
+        //     }
+        // }
 
         // Set rayLenght
         float rayLenght = _movePosition.y + _boundsHeight / 2f;
