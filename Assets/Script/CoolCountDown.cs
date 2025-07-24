@@ -2,15 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CoolCountDown : MonoBehaviour
+public class CoolCountDown : PlayerStates
 {
-    float LifeTimeInIce;
+    public float LifeTimeInIce;
     private bool CountingDownOrNot;
+    [SerializeField] float maxTime;
 
-    void Start()
+    protected override void InitState()
     {
+        base.InitState();
+        LifeTimeInIce = 0;
         CountingDownOrNot = true;
+        UIManager.Instance.UpdateFuel(LifeTimeInIce, maxTime);
     }
+
 
     // Update is called once per frame
     void Update()
@@ -18,12 +23,14 @@ public class CoolCountDown : MonoBehaviour
         if (CountingDownOrNot == true)
         {
             LifeTimeInIce += Time.deltaTime;
+            UIManager.Instance.UpdateFuel(LifeTimeInIce, maxTime);
             //Debug.Log(LifeTimeInIce);
         }
-        if (LifeTimeInIce >= 7)
+        if (LifeTimeInIce >= maxTime)
         {
             GetComponent<PlayerHealth>().Kill();
             LifeTimeInIce = 0;
+            UIManager.Instance.UpdateFuel(LifeTimeInIce, maxTime);
         }
     }
     
@@ -43,6 +50,7 @@ public class CoolCountDown : MonoBehaviour
             if (LifeTimeInIce >= 0)
             {
                 LifeTimeInIce -= 0.1f;
+                UIManager.Instance.UpdateFuel(LifeTimeInIce, maxTime);
             }
             //Debug.Log(LifeTimeInIce);
         }

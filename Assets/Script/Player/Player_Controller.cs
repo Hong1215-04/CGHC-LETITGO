@@ -17,11 +17,10 @@ public class Player_Controller : Singleton<Player_Controller>
     [SerializeField] private int horizontalRayAmount = 4;
     [SerializeField] private Animator PlayerMove;
 
-    protected override void Awake()
-    {
-        base.Awake();
-
-    }
+    // protected override void Awake()
+    // {
+    //     base.Awake();
+    // }
 
     #region Properties
 
@@ -283,13 +282,13 @@ public class Player_Controller : Singleton<Player_Controller>
     private void CollisionAbove()
     {
         //fixing bug wallcling
-        if (!Conditions.IsWallClinging)
-        {
-            if (_movePosition.y < 0)
-            {
-                return;
-            }
-        }
+        // if (!Conditions.IsWallClinging)
+        // {
+        //     if (_movePosition.y < 0)
+        //     {
+        //         return;
+        //     }
+        // }
 
         // Set rayLenght
         float rayLenght = _movePosition.y + _boundsHeight / 2f;
