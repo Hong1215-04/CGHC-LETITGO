@@ -53,11 +53,11 @@ public class Player_WallCling : PlayerStates
                 _playerController.Conditions.IsWallClinging = false;
             }
             //Improve for clinging without wall bugs
-            // if (_playerController.Conditions.IsCollidingAbove)
-            // {
-            //     _playerController.SetWallClingMultiplier(0f);
-            //     _playerController.Conditions.IsWallClinging = false;
-            // }
+            if (_playerController.Conditions.IsCollidingAbove)
+            {
+                _playerController.SetWallClingMultiplier(0f);
+                _playerController.Conditions.IsWallClinging = false;
+            }
 
             if (_playerController.FacingRight)
             {
