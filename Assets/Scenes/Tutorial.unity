@@ -1451,7 +1451,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpHeight: 2
   maxJumps: 2
-  DashDistance: 1.8
+  DashDistance: 1.5
   maxDash: 2
   dashingTime: 0.005
   dashingCount: 40
