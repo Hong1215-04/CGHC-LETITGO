@@ -2,14 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CoolCountDown : MonoBehaviour
+public class CoolCountDown : PlayerStates
 {
-    float LifeTimeInIce;
+    private float LifeTimeInIce;
     private bool CountingDownOrNot;
 
-    void Start()
+    [SerializeField] float maxTime;
+
+
+    protected override void InitState()
     {
+        base.InitState();
         CountingDownOrNot = true;
+        UIManager.Instance.UpdateFuel(LifeTimeInIce, maxTime);
     }
 
     // Update is called once per frame
@@ -18,20 +23,22 @@ public class CoolCountDown : MonoBehaviour
         if (CountingDownOrNot == true)
         {
             LifeTimeInIce += Time.deltaTime;
-            //Debug.Log(LifeTimeInIce);
+            UIManager.Instance.UpdateFuel(LifeTimeInIce, maxTime);
         }
-        if (LifeTimeInIce >= 7)
+        if (LifeTimeInIce >= maxTime)
         {
             GetComponent<PlayerHealth>().Kill();
             LifeTimeInIce = 0;
+            UIManager.Instance.UpdateFuel(LifeTimeInIce, maxTime);
         }
     }
-    
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Fire"))
         {
             CountingDownOrNot = false;
+            UIManager.Instance.UpdateFuel(LifeTimeInIce, maxTime);
         }
     }
 
@@ -42,12 +49,12 @@ public class CoolCountDown : MonoBehaviour
             CountingDownOrNot = false;
             if (LifeTimeInIce >= 0)
             {
-                LifeTimeInIce -= 0.1f;
+                LifeTimeInIce -= 1f;
+                UIManager.Instance.UpdateFuel(LifeTimeInIce, maxTime);
             }
-            //Debug.Log(LifeTimeInIce);
         }
     }
-    
+
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Fire"))

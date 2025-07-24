@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Player_WallCling : PlayerStates
 {
-    [Header("Settings")] 
+    [Header("Settings")]
     [SerializeField] private float fallFactor = 0.5f;
-    
+
     protected override void GetInput()
     {
         if (_horizontalInput <= -0.1f || _horizontalInput >= 0.1f)
@@ -24,12 +24,14 @@ public class Player_WallCling : PlayerStates
     {
         if (_playerController.Conditions.IsCollidingBelow || _playerController.Force.y >= 0) //on the FLOOR or in the AIR
         {
+
             _playerController.Conditions.IsWallClinging = false;
-            _playerController.SetWallClingMultiplier(0f);  
+            _playerController.SetWallClingMultiplier(0f);
         }
 
         if (_playerController.Conditions.IsCollidingLeft && _horizontalInput <= -0.1f)
         {
+
             _playerController.SetWallClingMultiplier(fallFactor);
             _playerController.Conditions.IsWallClinging = true;
             _playerController.Conditions.IsCollidingLeft = false;
@@ -37,6 +39,7 @@ public class Player_WallCling : PlayerStates
         if (_playerController.Conditions.IsColRight && _horizontalInput >= 0.1f)
         {
             Debug.Log("WallRighttrue");
+
             _playerController.SetWallClingMultiplier(fallFactor);
             _playerController.Conditions.IsWallClinging = true;
             _playerController.Conditions.IsColRight = false;
@@ -45,6 +48,7 @@ public class Player_WallCling : PlayerStates
 
     private void ExitWallCling()
     {
+
         if (_playerController.Conditions.IsWallClinging)
         {
             if (_playerController.Conditions.IsCollidingBelow || _playerController.Force.y >= 0)
@@ -52,12 +56,13 @@ public class Player_WallCling : PlayerStates
                 _playerController.SetWallClingMultiplier(0f);
                 _playerController.Conditions.IsWallClinging = false;
             }
+
             //Improve for clinging without wall bugs
-            if (_playerController.Conditions.IsCollidingAbove)
-            {
-                _playerController.SetWallClingMultiplier(0f);
-                _playerController.Conditions.IsWallClinging = false;
-            }
+            // if (_playerController.Conditions.IsCollidingAbove)
+            // {
+            //     _playerController.SetWallClingMultiplier(0f);
+            //     _playerController.Conditions.IsWallClinging = false;
+            // }
 
             if (_playerController.FacingRight)
             {
@@ -77,4 +82,16 @@ public class Player_WallCling : PlayerStates
             }
         }
     }
+
+    // private void OnCollisionEnter2D(Collision2D collision)
+    // {
+    //     _playerController.SetWallClingMultiplier(0f);
+    //     _playerController.Conditions.IsWallClinging = false;
+    // }
+    // private void OnCollisionExit2D(Collision2D collision)
+    // {
+    //     _playerController.SetWallClingMultiplier(0f);
+    //     _playerController.Conditions.IsWallClinging = true;
+    // }
 }
+

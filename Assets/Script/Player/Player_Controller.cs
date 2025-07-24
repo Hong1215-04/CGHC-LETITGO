@@ -116,7 +116,7 @@ public class Player_Controller : MonoBehaviour
         {
             if (Conditions.IsDashing == true)
             {
-                float GravityControl = Mathf.Sqrt(0.0001f * 2f * Mathf.Abs(Gravity));
+                float GravityControl = Mathf.Sqrt(0.000001f * 2f * Mathf.Abs(Gravity));
                 SetVerticalForce(-GravityControl);
             }
         }
@@ -276,14 +276,15 @@ public class Player_Controller : MonoBehaviour
 
     private void CollisionAbove()
     {
+        
         //fixing bug wallcling
-        if (!Conditions.IsWallClinging)
-        {
-            if (_movePosition.y < 0)
-            {
-                return;
-            }
-        }
+        // if (!Conditions.IsWallClinging)
+        // {
+        //     if (_movePosition.y < 0)
+        //     {
+        //         return;
+        //     }
+        // }
 
         // Set rayLenght
         float rayLenght = _movePosition.y + _boundsHeight / 2f;
