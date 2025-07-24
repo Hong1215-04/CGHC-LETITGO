@@ -1685,6 +1685,7 @@ Animator:
   m_WriteDefaultValuesOnDisable: 0
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 --- !u!1001 &1826849047
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1755,6 +1756,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3775938354558570921, guid: 3792fad84f65d4b459a9e3a48e52db18, type: 3}
   m_PrefabInstance: {fileID: 1826849047}
   m_PrefabAsset: {fileID: 0}
+=======
+>>>>>>> parent of 96eaaac (music)
 =======
 >>>>>>> parent of 96eaaac (music)
 =======
