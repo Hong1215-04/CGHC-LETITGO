@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class CoolCountDown : PlayerStates
 {
-    private float LifeTimeInIce;
+    public float LifeTimeInIce;
     private bool CountingDownOrNot;
-
     [SerializeField] float maxTime;
-
 
     protected override void InitState()
     {
         base.InitState();
+        LifeTimeInIce = 0;
         CountingDownOrNot = true;
         UIManager.Instance.UpdateFuel(LifeTimeInIce, maxTime);
     }
+
 
     // Update is called once per frame
     void Update()
@@ -24,6 +24,7 @@ public class CoolCountDown : PlayerStates
         {
             LifeTimeInIce += Time.deltaTime;
             UIManager.Instance.UpdateFuel(LifeTimeInIce, maxTime);
+            //Debug.Log(LifeTimeInIce);
         }
         if (LifeTimeInIce >= maxTime)
         {
@@ -32,13 +33,12 @@ public class CoolCountDown : PlayerStates
             UIManager.Instance.UpdateFuel(LifeTimeInIce, maxTime);
         }
     }
-
+    
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Fire"))
         {
             CountingDownOrNot = false;
-            UIManager.Instance.UpdateFuel(LifeTimeInIce, maxTime);
         }
     }
 
@@ -49,12 +49,13 @@ public class CoolCountDown : PlayerStates
             CountingDownOrNot = false;
             if (LifeTimeInIce >= 0)
             {
-                LifeTimeInIce -= 1f;
+                LifeTimeInIce -= 0.1f;
                 UIManager.Instance.UpdateFuel(LifeTimeInIce, maxTime);
             }
+            //Debug.Log(LifeTimeInIce);
         }
     }
-
+    
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Fire"))

@@ -29,6 +29,6 @@ public class UIManager : Singleton<UIManager>
     {
         fuelImage.fillAmount =
             Mathf.Lerp(fuelImage.fillAmount, _currentJetpackFuel / _jetpackFuel, Time.deltaTime * 10f);
-    }            
+    }    
 }
 
