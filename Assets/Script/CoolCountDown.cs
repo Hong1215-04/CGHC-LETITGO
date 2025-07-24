@@ -49,7 +49,7 @@ public class CoolCountDown : PlayerStates
             CountingDownOrNot = false;
             if (LifeTimeInIce >= 0)
             {
-                LifeTimeInIce -= 0.1f;
+                LifeTimeInIce -= 1f;
                 UIManager.Instance.UpdateFuel(LifeTimeInIce, maxTime);
             }
             //Debug.Log(LifeTimeInIce);
