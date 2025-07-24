@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class Player_Controller : Singleton<Player_Controller>
+public class Player_Controller : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private float gravity = -20f;
@@ -16,12 +16,6 @@ public class Player_Controller : Singleton<Player_Controller>
     [SerializeField] private int verticalRayAmount = 4;
     [SerializeField] private int horizontalRayAmount = 4;
     [SerializeField] private Animator PlayerMove;
-
-    protected override void Awake()
-    {
-        base.Awake();
-
-    }
 
     #region Properties
 
