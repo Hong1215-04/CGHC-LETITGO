@@ -1753,8 +1753,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4c83ce8da3cfed4fbdc944376acb2d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LifeTimeInIce: 0
-  maxTime: 0
 --- !u!114 &1553934844
 MonoBehaviour:
   m_ObjectHideFlags: 0
