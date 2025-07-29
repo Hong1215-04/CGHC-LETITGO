@@ -33,12 +33,18 @@ public class CoolCountDown : PlayerStates
             UIManager.Instance.UpdateFuel(LifeTimeInIce, maxTime);
         }
     }
-    
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Fire"))
         {
             CountingDownOrNot = false;
+            
+        }
+        if (collision.gameObject.layer == LayerMask.NameToLayer("ChangeLevel"))
+        {
+            CountingDownOrNot = false;
+            
         }
     }
 
@@ -54,13 +60,22 @@ public class CoolCountDown : PlayerStates
             }
             //Debug.Log(LifeTimeInIce);
         }
+        if (collision.gameObject.layer == LayerMask.NameToLayer("ChangeLevel"))
+        {
+            CountingDownOrNot = false;
+        }
     }
-    
+
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Fire"))
         {
             CountingDownOrNot = true;
+        }
+        if (collision.gameObject.layer == LayerMask.NameToLayer("ChangeLevel"))
+        {
+            CountingDownOrNot = false;
+
         }
     }
 }

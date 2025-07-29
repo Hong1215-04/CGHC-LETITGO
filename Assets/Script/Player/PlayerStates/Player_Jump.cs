@@ -46,7 +46,7 @@ public class Player_Jump : PlayerStates
         {
             Jump();
         }
-        else if (Input.GetKeyDown(KeyCode.LeftShift))
+        else if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.J))
         {
             DashCon();
         }
